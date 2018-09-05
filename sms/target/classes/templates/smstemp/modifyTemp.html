@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org">
+<head th:include="base/header :: head_template">
+</head>
+
+<body class="gray-bg" style="background-color: #ffffff">
+        <div class="row">
+            <div class="col-sm-12">
+                        <small style="color: red;">&nbsp;&nbsp;&nbsp;模板中动态参数请以 %s 表示, 如有验证码以  %c 表示</small>
+                    <div class="ibox-content" >
+                        <form class="form-horizontal m-t" action=""  id="commentForm" >
+	                    	<input type="text"  id="todo" name="todo" hidden="" required th:value="${todo}"/>
+                            <div class="form-group" >
+                                <label class="col-sm-3 control-label" >&nbsp;模&nbsp;&nbsp;板ID：</label>
+                                <div class="col-sm-3" style="display: inline-block;">
+                                	<input type="text"  class="form-control " id="tempId" name="tempId" required th:value="${template.tempId}"/>
+                                </div>
+                            </div>
+                            <div class="form-group">
+								<label class="col-sm-3 control-label">&nbsp;模&nbsp;&nbsp;&nbsp;&nbsp;板&nbsp;&nbsp;：</label>
+								<div class="col-sm-8" style="padding-left: 110px;margin-top: -3%">
+	                            	<textarea class="form-control" id="temp" name="temp" rows="3" required th:text="${template.temp}"></textarea>
+	                        	</div>
+	                        </div>
+                            <div class="form-group">
+                                <label class="col-sm-3 control-label">模板类型：</label>
+                                <div class="col-sm-3" style="display: inline-block;">
+									<select class="form-control" name="type" id = "type" required="required">
+                                          	<option th:selected="${template.type} == 1" value="1">登记注册</option>
+		                               		<option th:selected="${template.type} == 2" value="2">修改密码</option>
+		                               		<option th:selected="${template.type} == 3" value="3">运营</option>
+		                               		<option th:selected="${template.type} == 4" value="4">订单</option>
+		                               		<option th:selected="${template.type} == 5" value="5">其他</option>
+                                    </select>                                
+                                </div>
+                             </div> 
+                             <br>
+                        </form>
+                    </div>
+                </div>
+            </div>
+
+    <!-- Page-Level Scripts -->
+    <script src="/js/plugins/webuploader/webuploader.js"></script>
+    <script src="/js/plugins/webuploader/webuploader.ys.js"></script>
+    <script>
+        $(document).ready(function () {
+        	var todo = $('#todo').val();
+        	if(todo == 2){
+        		$('#tempId').attr("readonly",true)
+        	}
+        });
+        
+        function submit() {
+        	/* 校验 */
+        	if(!$("#commentForm").valid()){
+        		return false;
+        	}
+        	
+        	$.ajax({
+	        	url: "/sms/saveTemplate",
+	        	type: 'POST',
+	        	data:$("#commentForm").serialize(),
+	        	success: function(d){
+	        	}
+        	}); 
+        	return true;
+        }
+
+    </script>
+
+</body>
+
+</html>

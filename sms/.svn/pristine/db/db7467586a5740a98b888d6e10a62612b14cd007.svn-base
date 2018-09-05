@@ -1,0 +1,11 @@
+package com.yjkj.sms.mapper;
+
+import com.yjkj.sms.entity.SmsLogEntity;
+
+public interface SmsLogMapper {
+	
+	int insertSmsLog(SmsLogEntity recode);
+	
+	int updateSmsLog(SmsLogEntity recode);
+
+}

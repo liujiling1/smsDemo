@@ -1,0 +1,70 @@
+package com.yjkj.sms.entity;
+
+import java.io.Serializable;
+import java.util.Date;
+
+import com.yjkj.sms.config.shiro.dto.SysUser;
+
+public class SysUserInfo extends SysUser implements Serializable {
+	private static final long serialVersionUID = -1725769264511784029L;
+
+    private String realName;
+
+    private Integer enable;
+
+    private Integer updaterId;
+
+    private Date updateTime;
+
+    private Integer createrId;
+
+    private Date createTime;
+
+    public String getRealName() {
+        return realName;
+    }
+
+    public void setRealName(String realName) {
+        this.realName = realName;
+    }
+
+    public Integer getEnable() {
+        return enable;
+    }
+
+    public void setEnable(Integer enable) {
+        this.enable = enable;
+    }
+
+    public Integer getUpdaterId() {
+        return updaterId;
+    }
+
+    public void setUpdaterId(Integer updaterId) {
+        this.updaterId = updaterId;
+    }
+
+    public Date getUpdateTime() {
+        return updateTime;
+    }
+
+    public void setUpdateTime(Date updateTime) {
+        this.updateTime = updateTime;
+    }
+
+    public Integer getCreaterId() {
+        return createrId;
+    }
+
+    public void setCreaterId(Integer createrId) {
+        this.createrId = createrId;
+    }
+
+    public Date getCreateTime() {
+        return createTime;
+    }
+
+    public void setCreateTime(Date createTime) {
+        this.createTime = createTime;
+    }
+}

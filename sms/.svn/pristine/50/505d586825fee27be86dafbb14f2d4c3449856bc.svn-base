@@ -1,0 +1,17 @@
+sms.type = yzs
+
+#默认发送短信间隔时间，单位毫秒
+sms.time = 60000
+
+sms.huaxin.url=https://sh2.ipyy.com/sms.aspx
+sms.huaxin.action=send
+sms.huaxin.userid=6106
+sms.huaxin.account=jksc729
+sms.huaxin.password=ab123456
+
+
+sms.yzs.url=https://www.yescloudtree.cn
+sms.yzs.action=sendsms
+sms.yzs.userName=jsyj
+#sms.yzs.password=jsyj0423
+sms.yzs.password=BB674276C8F8052AC5F4005A62FB1EF3

@@ -1,0 +1,28 @@
+package com.yjkj.sms.config.shiro.dto;
+
+import java.io.Serializable;
+
+public class SysMenu implements Serializable {
+	private static final long serialVersionUID = -4511401785902615683L;
+	private Integer id;
+    private String menuName;
+    private String menuType;
+	public Integer getId() {
+		return id;
+	}
+	public void setId(Integer id) {
+		this.id = id;
+	}
+	public String getMenuName() {
+		return menuName;
+	}
+	public void setMenuName(String menuName) {
+		this.menuName = menuName;
+	}
+	public String getMenuType() {
+		return menuType;
+	}
+	public void setMenuType(String menuType) {
+		this.menuType = menuType;
+	}
+}

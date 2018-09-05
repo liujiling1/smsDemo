@@ -1,0 +1,26 @@
+package com.yjkj.sms;
+
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
+
+import com.yjkj.util.common.StringTool;
+
+public class test {
+	
+	public static void main(String[] args) {
+		
+//		String reg = "([1-9]\\d{5})";
+//		Pattern fsPattern = Pattern.compile(reg);
+//		
+//		String s = "2118081";
+//		Matcher m = fsPattern.matcher(s);
+//		
+//		System.out.println(m.matches());
+//		System.out.println(m.group());
+		
+		
+		
+		
+	}
+
+}

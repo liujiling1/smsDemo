@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html  xmlns="http://www.w3.org/1999/xhtml"
+	   xmlns:th="http://www.thymeleaf.org"
+	   xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity3">
+<head>
+
+    <title>禹江科技-登录</title>
+	<link th:href="@{/css/bootstrap.min.css}" rel="stylesheet" />
+    <link th:href="@{/css/login.css}" rel="stylesheet" />
+    <script src="/js/jquery.min.js"></script>
+	<script src="/js/bootstrap.min.js"></script>
+    <!--[if lt IE 9]>
+    <meta http-equiv="refresh" content="0;ie.html" />
+    <![endif]-->
+    <script>
+    	if(window.top !== window.self){ window.top.location = window.location;}
+    	$(function(){
+    		$("#signinpanel").css("margin-top",($(window).height() - $("#signinpanel").height())/2)
+    	}) 
+    </script>
+</head>
+
+<body class="signin">
+    <div class="signinpanel" id="signinpanel">
+        <div class="row">
+        	<div class="col-sm-12">
+	            <form role="form" action="/sms/logon" method="post">
+	                <h4 class="no-margins title">
+						<img src="/img/logo.png" width="200px"/>
+					</h4>
+						<div th:if="${#httpServletRequest.getParameter('flag')}== 1">
+							<button aria-hidden="true" data-dismiss="alert" class="close" type="button">×</button>
+							<div class="alert alert-danger alert-dismissable">
+								用户名/密码不正确
+							</div>
+						</div>
+
+						<div th:if="${#httpServletRequest.getParameter('flag')} == 2">
+							<button aria-hidden="true" data-dismiss="alert" class="close" type="button">×</button>
+							<div class="alert alert-danger alert-dismissable">
+								用户被禁用
+							</div>
+						</div>
+	                <div class="form-group">
+	                    <input type="text" name="username" class="form-control uname" placeholder="用户名" required="" />
+	                </div>
+	                <div class="form-group">
+	                    <input type="password" name="password" class="form-control pword" placeholder="密码" required="" />
+	                </div>
+	                <button type="submit" class="btn btn-orange block full-width m-b">登 录</button>
+	
+	            </form>
+            </div>
+        </div>
+    </div>
+</body>
+
+</html>
+

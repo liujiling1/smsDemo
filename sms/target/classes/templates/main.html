@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity4" xmlns:shiro="http://www.pollix.at/thymeleaf/shiro">
+
+	<head th:include="base/header :: head_template">
+
+		<title> 主页</title>
+	</head>
+
+	<body class="gray-bg">
+		<div class="wrapper wrapper-content animated fadeInRight">
+			<div class="row">
+					<div class="row">
+						<div class="col-md-12">
+							<div class="col-sm-12">
+								<div class="ibox col-sm-2" >
+									<h4>当前短信余额：</h4>
+									<h1 class="no-margins" id="balance" style="padding-left: 30%;">0</h1>
+								</div>
+							</div>
+							<div class="col-sm-5">
+								<div class="ibox float-e-margins">
+									<div class="ibox-title">
+										<h5>短信发送统计</h5>
+									</div>
+									<div class="ibox-content">
+										<div class="echarts" id="echarts-today"></div>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+
+			<!-- 全局js -->
+			<script src="/js/content.js?v=1.0.0"></script>
+			<script src="/js/plugins/echarts/echarts.min.js"></script>
+			<script type="text/javascript">
+			
+			$(document).ready(function () {
+				$.ajax({
+                    "url":ys.path+"/yjkj/sms/inner/getSmsBalance",
+                    "success":function(ret){
+                    	$("#balance").text(ret)
+                    }
+                });
+			});
+			</script>
+	</body>
+
+</html>

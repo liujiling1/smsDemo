@@ -1,0 +1,48 @@
+package com.yjkj.sms.config.shiro.dto;
+
+import java.io.Serializable;
+
+public class SysRole implements Serializable {
+	private static final long serialVersionUID = 2385101929457196281L;
+	private Integer id;
+    private String roleId;
+    private String des;
+    private String menus;
+    private String menuTypes;
+	public String getDes() {
+		return des;
+	}
+	public void setDes(String des) {
+		this.des = des;
+	}
+	public Integer getId() {
+		return id;
+	}
+	public void setId(Integer id) {
+		this.id = id;
+	}
+	public String getRoleId() {
+		return roleId;
+	}
+	public void setRoleId(String roleId) {
+		this.roleId = roleId;
+	}
+	public String getMenus() {
+		return menus;
+	}
+	public void setMenus(String menus) {
+		this.menus = menus;
+	}
+	public String getMenuTypes() {
+		return menuTypes;
+	}
+	public void setMenuTypes(String menuTypes) {
+		this.menuTypes = menuTypes;
+	}
+	@Override
+	public String toString() {
+		return "SysRole [id=" + id + ", roleId=" + roleId + ", des=" + des + ", menus=" + menus + ", menuTypes="
+				+ menuTypes + "]";
+	}
+	
+}

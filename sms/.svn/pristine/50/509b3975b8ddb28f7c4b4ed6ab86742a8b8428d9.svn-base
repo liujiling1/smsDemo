@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity4" xmlns:shiro="http://www.pollix.at/thymeleaf/shiro">
+
+	<head th:include="base/header :: head_template">
+
+		<title> 主页</title>
+	</head>
+
+	<body class="gray-bg">
+		<div class="wrapper wrapper-content animated fadeInRight">
+			<div class="row">
+					<div class="row">
+						<div class="col-sm-6">
+							<div class="ibox float-e-margins">
+								<div class="ibox-title">
+									<h5>今日-当月  柱状统计图         - - - 鼠标悬停查看具体数据</h5>
+								</div>
+								<div class="ibox-content">
+									<div class="echarts" id="echarts-today"></div>
+								</div>
+							</div>
+						</div>
+						
+						<div class="col-sm-6">
+							<div class="ibox float-e-margins">
+								<div class="ibox-title">
+									<h5>今日-当月  饼状统计图           - - - 鼠标悬停查看具体数据</h5>
+								</div>
+								<div class="ibox-content">
+									<div class="echarts" id="echarts-today"></div>
+								</div>
+							</div>
+						</div>
+						
+					</div>
+				</div>
+			</div>
+
+			<!-- 全局js -->
+			<script src="/js/content.js?v=1.0.0"></script>
+			<script src="/js/plugins/echarts/echarts.min.js"></script>
+			<script type="text/javascript">
+			</script>
+	</body>
+
+</html>

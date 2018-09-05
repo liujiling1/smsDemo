@@ -1,0 +1,23 @@
+package com.yjkj.sms.interceptor;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Configuration;
+import org.springframework.web.servlet.config.annotation.InterceptorRegistry;
+import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
+
+@Configuration
+public class InterceptorConfig implements WebMvcConfigurer {
+	
+	@Autowired
+	IpInterceptor ipInterceptor;
+	
+	@Autowired
+	TotalCntInterceptor totalCntInterceptor;
+	
+	@Override
+	public void addInterceptors(InterceptorRegistry registry) {
+		registry.addInterceptor(ipInterceptor).addPathPatterns("/yjkj/sms/inner/**");
+		
+		registry.addInterceptor(totalCntInterceptor).addPathPatterns("/yjkj/sms/inner/**").excludePathPatterns("/yjkj/sms/inner/chkVcode");
+	}
+}

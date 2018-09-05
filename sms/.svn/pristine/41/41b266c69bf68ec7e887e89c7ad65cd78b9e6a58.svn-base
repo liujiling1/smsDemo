@@ -1,0 +1,296 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.yjkj.sms.mapper.YjShiroMapper">
+	<resultMap id="BaseResultMap"
+		type="com.yjkj.sms.config.shiro.dto.SysUser">
+		<id column="id" property="id" jdbcType="INTEGER" />
+		<result column="user_name" property="userName"
+			jdbcType="VARCHAR" />
+		<result column="real_name" property="realName"
+			jdbcType="VARCHAR" />
+		<result column="salt" property="salt" jdbcType="VARCHAR" />
+		<result column="password" property="password"
+			jdbcType="VARCHAR" />
+		<result column="enable" property="enable" jdbcType="TINYINT" />
+		<result column="dept_id" property="deptId" jdbcType="INTEGER" />
+		<result column="roles" property="roles" jdbcType="VARCHAR" />
+		<result column="updater_id" property="updaterId"
+			jdbcType="INTEGER" />
+		<result column="update_time" property="updateTime"
+			jdbcType="TIMESTAMP" />
+		<result column="creater_id" property="createrId"
+			jdbcType="INTEGER" />
+		<result column="create_time" property="createTime"
+			jdbcType="TIMESTAMP" />
+	</resultMap>
+	<sql id="Base_Column_List">
+		id, user_name, real_name, salt, password, enable, dept_id, updater_id,
+		update_time, creater_id,
+		create_time
+	</sql>
+	<select id="selectByPrimaryKey" resultMap="BaseResultMap"
+		parameterType="java.lang.Integer">
+		select
+		<include refid="Base_Column_List" />
+		from sys_user
+		where id = #{id,jdbcType=INTEGER}
+	</select>
+	<delete id="deleteByPrimaryKey"
+		parameterType="java.lang.Integer">
+		delete from sys_user
+		where id = #{id,jdbcType=INTEGER}
+	</delete>
+	<insert id="insertUser" parameterType="java.util.Map">
+		<selectKey resultType="java.lang.Integer" keyProperty="id"
+			order="AFTER">
+			SELECT LAST_INSERT_ID()
+		</selectKey>
+		insert into sys_user (user_name, real_name, salt,password,
+		enable, dept_id, roles, updater_id,
+		update_time, creater_id, create_time
+		)
+		values (#{userName,jdbcType=VARCHAR}, #{realName,jdbcType=VARCHAR},
+		#{salt,jdbcType=VARCHAR}, #{password,jdbcType=VARCHAR},
+		#{enable,jdbcType=TINYINT}, #{deptId,jdbcType=INTEGER}, #{roles},
+		#{updaterId,jdbcType=INTEGER},
+		#{updateTime,jdbcType=TIMESTAMP}, #{createrId,jdbcType=INTEGER}, #{createTime,jdbcType=TIMESTAMP}
+		)
+	</insert>
+	<insert id="insertSelective"
+		parameterType="com.yjkj.sms.config.shiro.dto.SysUser">
+		<selectKey resultType="java.lang.Integer" keyProperty="id"
+			order="AFTER">
+			SELECT LAST_INSERT_ID()
+		</selectKey>
+		insert into sys_user
+		<trim prefix="(" suffix=")" suffixOverrides=",">
+			<if test="userName != null">
+				user_name,
+			</if>
+			<if test="realName != null">
+				real_name,
+			</if>
+			<if test="salt != null">
+				salt,
+			</if>
+			<if test="password != null">
+				password,
+			</if>
+			<if test="enable != null">
+				enable,
+			</if>
+			<if test="deptId != null">
+				dept_id,
+			</if>
+			<if test="updaterId != null">
+				updater_id,
+			</if>
+			<if test="updateTime != null">
+				update_time,
+			</if>
+			<if test="createrId != null">
+				creater_id,
+			</if>
+			<if test="createTime != null">
+				create_time,
+			</if>
+		</trim>
+		<trim prefix="values (" suffix=")" suffixOverrides=",">
+			<if test="userName != null">
+				#{userName,jdbcType=VARCHAR},
+			</if>
+			<if test="realName != null">
+				#{realName,jdbcType=VARCHAR},
+			</if>
+			<if test="salt != null">
+				#{salt,jdbcType=VARCHAR},
+			</if>
+			<if test="password != null">
+				#{password,jdbcType=VARCHAR},
+			</if>
+			<if test="enable != null">
+				#{enable,jdbcType=TINYINT},
+			</if>
+			<if test="deptId != null">
+				#{deptId,jdbcType=INTEGER},
+			</if>
+			<if test="updaterId != null">
+				#{updaterId,jdbcType=INTEGER},
+			</if>
+			<if test="updateTime != null">
+				#{updateTime,jdbcType=TIMESTAMP},
+			</if>
+			<if test="createrId != null">
+				#{createrId,jdbcType=INTEGER},
+			</if>
+			<if test="createTime != null">
+				#{createTime,jdbcType=TIMESTAMP},
+			</if>
+		</trim>
+	</insert>
+	<update id="updateUser" parameterType="java.util.Map">
+		update sys_user
+		<set>
+			<if test="userName != null">
+				user_name = #{userName,jdbcType=VARCHAR},
+			</if>
+			<if test="realName != null">
+				real_name = #{realName,jdbcType=VARCHAR},
+			</if>
+			<if test="salt != null">
+				salt = #{salt,jdbcType=VARCHAR},
+			</if>
+			<if test="password != null">
+				password = #{password,jdbcType=VARCHAR},
+			</if>
+			<if test="enable != null">
+				enable = #{enable,jdbcType=TINYINT},
+			</if>
+			<if test="deptId != null">
+				dept_id = #{deptId,jdbcType=INTEGER},
+			</if>
+			<if test="roles != null">
+				roles = #{roles},
+			</if>
+			<if test="updaterId != null">
+				updater_id = #{updaterId,jdbcType=INTEGER},
+			</if>
+			<if test="updateTime != null">
+				update_time = #{updateTime,jdbcType=TIMESTAMP},
+			</if>
+			<if test="createrId != null">
+				creater_id = #{createrId,jdbcType=INTEGER},
+			</if>
+			<if test="createTime != null">
+				create_time = #{createTime,jdbcType=TIMESTAMP},
+			</if>
+		</set>
+		where id = #{id,jdbcType=INTEGER}
+	</update>
+	<update id="updateByPrimaryKey"
+		parameterType="com.yjkj.sms.config.shiro.dto.SysUser">
+		update sys_user
+		set user_name = #{userName,jdbcType=VARCHAR},
+		real_name = #{realName,jdbcType=VARCHAR},
+		salt = #{salt,jdbcType=VARCHAR},
+		password = #{password,jdbcType=VARCHAR},
+		enable = #{enable,jdbcType=TINYINT},
+		dept_id = #{deptId,jdbcType=INTEGER},
+		updater_id = #{updaterId,jdbcType=INTEGER},
+		update_time = #{updateTime,jdbcType=TIMESTAMP},
+		creater_id = #{createrId,jdbcType=INTEGER},
+		create_time = #{createTime,jdbcType=TIMESTAMP}
+		where id = #{id,jdbcType=INTEGER}
+	</update>
+
+	<select id="getUserById" resultType="java.util.Map">
+		select su.id, su.user_name userName, su.real_name realName, su.dept_id
+		deptId , su.roles , su.salt
+		from sys_user su
+		where su.id = #{id,jdbcType=INTEGER}
+	</select>
+
+	<select id="getUserByUserName" resultMap="BaseResultMap">
+		select
+		<include refid="Base_Column_List" />
+		from sys_user
+		where user_name = #{userName,jdbcType=VARCHAR}
+	</select>
+
+	<select id="getPermissionsByUserName"
+		resultType="java.lang.String">
+		SELECT sa.`authority_code`
+		FROM `sys_role_authority` sra, `sys_user_role` sur, `sys_authority` sa,
+		`sys_user` su
+		WHERE su.`id` = sur.`user_id`
+		AND sur.`role_id` = sra.`role_id`
+		AND sra.`authority_id` = sa.`id`
+		AND sa.`enable` = 1
+		AND su.`user_name`= #{userName,jdbcType=VARCHAR}
+		UNION ALL
+		SELECT sa.`authority_code`
+		FROM `sys_user_authority` sua, `sys_authority` sa, `sys_user` su
+		WHERE su.`id` = sua.`user_id`
+		AND sua.`authority_id` = sa.`id`
+		AND sa.`enable` = 1
+		AND su.`user_name` = #{userName,jdbcType=VARCHAR}
+	</select>
+
+
+	<select id="getMenusByAuthCodes" resultType="java.util.Map">
+		select DISTINCT sm.id, sm.menu_name menuName,
+		sm.href,sm.sort,sm.parent_id pid,sm.leaf
+		FROM `sys_menu` sm, `sys_authority_menu` sam, `sys_authority` sa
+		WHERE sm.`id` = sam.`menu_id`
+		AND sam.`authority_id` = sa.`id`
+		AND sm.`enable` = 1
+		AND sa.`enable` = 1
+		<if test="authCodes != null and authCodes.size() > 0">
+			AND sa.`authority_code` IN
+			<foreach item="item" index="index" collection="authCodes"
+				open="(" separator="," close=")">
+				#{item}
+			</foreach>
+		</if>
+		<if test="authCodes == null or authCodes.size() == 0">
+			AND 1 = 0
+		</if>
+	</select>
+
+	<select id="getUsers" resultType="java.util.Map">
+		SELECT su.id,
+		su.user_name userName,
+		su.real_name realName,
+		enable,
+		roles,
+		updater_id updaterId,
+		update_time updateTime
+		FROM sys_user su
+	</select>
+
+	<select id="getUserAuths" resultType="java.util.Map">
+		SELECT sa.`id`,sa.`authority_code` authorityCode,sa.`authority_name`
+		authorityName,IF(sua.id IS NULL, 0 ,1) selected
+		FROM sys_authority sa LEFT JOIN sys_user_authority sua ON sa.`id` =
+		sua.`authority_id` AND sua.`user_id` = #{userId}
+		WHERE sa.`enable` = 1
+		ORDER BY sa.`id`
+	</select>
+
+	<select id="isUserNameExist" resultMap="BaseResultMap">
+		select
+		<include refid="Base_Column_List" />
+		from sys_user
+		where user_name = #{userName}
+		<if test="id != null">
+			AND id != #{id}
+		</if>
+	</select>
+
+	<select id="userStatInfo" resultType="java.util.Map">
+		SELECT stat_date statDate,user_num userNum
+		FROM user_info_stat
+		where stat_date BETWEEN DATE_ADD(current_date() ,INTERVAL -30 day) and
+		DATE_ADD(current_date() ,INTERVAL -1 day)
+	</select>
+
+	<select id="countUserNum" resultType="int">
+		SELECT count(*) FROM user_info
+	</select>
+
+	<select id="selectAllRoles"
+		resultType="com.yjkj.sms.config.shiro.dto.SysRole">
+		SELECT
+		id,
+		roleId,
+		des,
+		menus,
+		menuTypes
+		FROM sys_role where del = 0
+	</select>
+
+	<select id="selectRolesByUserName" parameterType="java.lang.String" resultType="java.lang.String">
+		SELECT  roleId FROM sys_role WHERE INSTR((SELECT roles FROM sys_user WHERE user_name = #{userName}), roleId) >0
+	</select>
+
+</mapper>

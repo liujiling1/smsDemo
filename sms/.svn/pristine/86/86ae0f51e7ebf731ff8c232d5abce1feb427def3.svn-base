@@ -1,0 +1,159 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org">
+<head th:include="base/header :: head_template">
+</head>
+
+<body class="gray-bg" style="background-color: #ffffff">
+        <div class="row">
+            <div class="col-sm-12">
+                    <div class="ibox-content " >
+                        <form class="form-horizontal m-t" action=""  id="signupForm" >
+	                    	<input type="text"  id="todo" name="todo" hidden="true" required th:value="${todo}"/>
+	                    	<input type="text"  id="id" name="id" hidden="true" required th:value="${id}"/>
+                            <div class="form-group" >
+                                <label class="col-sm-2 control-label" >登录名：</label>
+                                <div class="col-sm-6 " >
+                                	<input type="text"  class="form-control " id="userName" name="userName" th:value="${userInfo.userName}"/>
+                                </div>
+                            </div>
+                            <div class="form-group " id="psd">
+                                <label class="col-sm-2 control-label" > 密 码 ：</label>
+                                <div class="col-sm-8 " >
+                                	<input type="password"  class="form-control" id="password" name="password" />
+                                </div>
+                            </div>
+                            <div class="form-group " id="psd1">
+                                <label class="col-sm-2 control-label" > 确认密 码 ：</label>
+                                <div class="col-sm-8 " >
+                                	<input type="password"  class="form-control" id="confirmPassword" name="confirmPassword" />
+                                	<span class="help-block m-b-none"><i class="fa fa-info-circle"></i> 请再次输入您的密码</span>
+                                </div>
+                            </div>
+                            <div class="form-group " id="name">
+                                <label class="col-sm-2 control-label" >真实姓名：</label>
+                                <div class="col-sm-8 " >
+                                	<input type="text"  class="form-control" id="realName" name="realName" th:value="${userInfo.realName}"/>
+                                </div>
+                            </div>
+                            <div class="form-group " id="js">
+                                <label class="col-sm-2 control-label" >角色：</label>
+                                <div class="col-sm-8" >
+                                	<input type="text" class="form-control"  id="roles" name="roles" th:value="${userInfo.roles}"/>
+                                </div>
+                            </div>
+                            <br>
+                        </form>
+                    </div>
+            </div>
+		</div>
+    <!-- Page-Level Scripts -->
+    <script src="/js/plugins/webuploader/webuploader.js"></script>
+    <script src="/js/plugins/webuploader/webuploader.ys.js"></script>
+    <script>
+    
+   	 	//检查
+     	var icon = "<i class='fa fa-times-circle'></i> ";
+        $("#signupForm").validate({
+            rules: {
+            	userName: {
+                    required: true,
+                    minlength: 5
+                },
+                password: {
+                    required: true,
+                    minlength: 6
+                },
+                confirmPassword: {
+                    required: true,
+                    minlength: 6,
+                    equalTo: "#password"
+                },
+                realName: {
+                    required: true,
+                },
+                roles: {
+                    required: true,
+                }
+            },
+            messages: {
+                username: {
+                    required: icon + "请输入您的用户名",
+                    minlength: icon + "用户名必须5个字符以上"
+                },
+                password: {
+                    required: icon + "请输入您的密码",
+                    minlength: icon + "密码必须6个字符以上"
+                },
+                confirmPassword: {
+                    required: icon + "请再次输入密码",
+                    minlength: icon + "密码必须6个字符以上",
+                    equalTo: icon + "两次输入的密码不一致"
+                }
+            }
+        });
+    	
+        $(document).ready(function () {
+        	var todo = $('#todo').val();
+        	if(todo == 2){
+        		$('#userName').attr("readonly",true)
+        		$('#psd').hide()
+        		$('#psd1').hide()
+        		$("#password").rules("remove");
+        		$("#confirmPassword").rules("remove");
+        	}
+        	
+        	if(todo == 'psd'){
+        		$('#userName').attr("readonly",true)
+        		$('#name').hide()
+        		$('#js').hide()
+        		$('#cd').hide()
+        	}
+        	
+        });
+        
+        function submit() {
+        	/* 校验 */
+        	var res = $("#signupForm").valid();
+        	if(!res){
+        		$('#todo').hide()
+        		$('#id').hide()
+        		return false;
+        	}
+        	
+        	$.ajax({
+	        	url: "/user/saveUserInfo",
+	        	type: 'POST',
+	        	async: false,
+	        	data:$("#signupForm").serialize(),
+	        	success: function(d){
+	        	}
+        	});  	
+        	
+        	return true;
+        }
+        
+        $.validator.setDefaults({
+            highlight: function (element) {
+                $(element).closest('.form-group').removeClass('has-success').addClass('has-error');
+            },
+            success: function (element) {
+                element.closest('.form-group').removeClass('has-error').addClass('has-success');
+            },
+            errorElement: "span",
+            errorPlacement: function (error, element) {
+                if (element.is(":radio") || element.is(":checkbox")) {
+                    error.appendTo(element.parent().parent().parent());
+                } else {
+                    error.appendTo(element.parent());
+                }
+            },
+            errorClass: "help-block m-b-none",
+            validClass: "help-block m-b-none"
+        });
+        
+    </script>
+
+</body>
+
+</html>

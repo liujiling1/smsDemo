@@ -1,0 +1,14 @@
+package com.yjkj.sms.mapper;
+
+import java.util.List;
+
+import com.yjkj.sms.config.shiro.dto.SysMenu;
+
+
+public interface SysMenuMapper {
+	
+	List<SysMenu> selectMenu();
+	
+	List<SysMenu> getLeafMenus();
+
+}

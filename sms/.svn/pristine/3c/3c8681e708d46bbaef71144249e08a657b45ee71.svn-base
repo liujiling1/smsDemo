@@ -1,0 +1,60 @@
+package com.yjkj.sms.service.impl;
+
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+import com.yjkj.sms.config.shiro.dto.SysMenu;
+import com.yjkj.sms.mapper.SysMenuMapper;
+import com.yjkj.sms.service.SysMenuService;
+import com.yjkj.sms.util.CommUtil;
+
+@Service
+public class SysMenuServiceImpl implements SysMenuService{
+
+	@Autowired
+	SysMenuMapper sysMenuMapper;
+
+	public List<SysMenu> qryMenus(){
+		Map<String,Object> param = new HashMap<>();
+		param.put("enable", 1);
+		return sysMenuMapper.selectMenu(param);
+	}
+
+	@Override
+	public SysMenu getMenuById(int id) {
+		return null;
+	}
+
+	@Override
+	public int addMenu(Map<String,Object> param) {
+		
+//		获取父菜单-处理
+		SysMenu parentMenu = sysMenuMapper.selectMenuById(Integer.valueOf(param.get("parentId")+""));
+        if(parentMenu.getLeaf().equals("1")){
+            Map<String,Object> paramP = new HashMap<String, Object>();
+            paramP.put("id", parentMenu.getId());
+            paramP.put("leaf", 0);
+            paramP.put("updaterId", CommUtil.getLoginUserId());
+            sysMenuMapper.updateMenu(paramP);
+        }
+        
+        param.put("leaf", 1);
+        param.put("updaterId", CommUtil.getLoginUserId());
+		return sysMenuMapper.insertMenu(param);
+	}
+
+	@Override
+	public int updMenu(Map<String,Object> param) {
+		param.put("updaterId", CommUtil.getLoginUserId());
+		return sysMenuMapper.updateMenu(param);
+	}
+
+	@Override
+	public int removeMenu(int id) {
+		
+		return sysMenuMapper.deleteMenu(id);
+	}
+}
