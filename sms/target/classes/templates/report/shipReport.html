@@ -1,0 +1,379 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity4" xmlns:shiro="http://www.pollix.at/thymeleaf/shiro">
+<link href="/css/plugins/report/report.css" rel="stylesheet" />
+	<head th:include="base/header :: head_template">
+	</head>
+
+	<body class="gray-bg">
+		<div class="wrapper wrapper-content animated fadeInRight">
+			<div class="row">
+				<div class="col-sm-12">
+					<div class="ibox report">
+							<h4>统计报表/船只统计</h4>
+							<h3>船只统计</h3>
+					</div>
+					<div class="ibox-content">
+						<div class="find_nav">
+							<div class="find_nav_left col-sm-2">
+						        <div class="find_nav_list">
+						            <ul>
+						            	<li id="reg"  onClick="qryRegistShip('day')"><a style="font-size: 16px;">注册统计</a></li>
+										<li id="busy"  onClick="qryBusyShip('day')"><a style="font-size: 16px;">承运中统计</a></li>
+										<li id="idle" onClick="qryIdleShip('day')"><a style="font-size: 16px;">空闲统计</a></li>
+						                <li class="sideline"></li>
+						            </ul>
+						        </div>
+						    </div>
+							
+						    <div class="find_nav_right col-sm-2 col-sm-pull-3" style="float:right;">
+						        <div class="find_nav_list">
+						            <ul>
+						                <li class="find_nav_cur" onClick="qry('day')"><a>当日</a></li>
+						                <li><a  onClick="qry('month')">当月</a></li>
+						                <li><a  onClick="qry('year')">全年</a></li>
+						            </ul>
+						        </div>
+						    </div>
+		                  	<div class="col-sm-3 col-sm-push-2" style="float:right;line-height: 32px;" >
+						        <input type="text"  id="startTime" name="startTime" placeholder="开始时间" class="form-control layer-date"  readonly="readonly"  style="width:8.6rem;background: #ffffff;"/>
+					            <b style="position: relative; top:5px;"> ~ </b>
+								<input type="text" id="endTime" name="endTime" placeholder="结束时间" class="form-control layer-date" readonly="readonly" style="width:8.6rem;background: #ffffff;"/>
+								<a id="page_sumbit" type="button" class="search_logo " onClick="qry('define')">查询</a>     
+		                  	</div>
+						</div>
+						<HR  width=90%;>
+						<br>
+	
+						<div class="row">
+							<div class="col-sm-12" >
+								<div id="echarts" >
+										<div class="echarts" style="height:500px;" id="echarts-bar"></div>
+										<div class="echarts" style="height:500px;" id="echarts-line"></div>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>		
+		
+		<!-- 全局js -->
+		<script src="/js/content.js?v=1.0.0"></script>
+		<script src="/js/plugins/echarts/echarts.min.js"></script>
+		<script src="/js/plugins/layer/laydate/laydate.js"></script>
+		<script src="/js/report.js"></script>
+		<script type="text/javascript">
+					
+					var type ='reg';
+					var startTime;
+					var endTime;
+					var qryType;
+		
+					$(document).ready(function(){
+						$("#echarts-line").hide();
+						qry('day');
+					})
+					$(document).ready(date());
+					$(document).ready(function(){
+						
+						$("#reg").click(function() {
+							$("#echarts-bar").show();
+							$("#echarts-line").hide();
+						})
+						$("#busy").click(function() {
+							$("#echarts-bar").hide();
+							$("#echarts-line").show();
+						})
+						$("#idle").click(function() {
+							$("#echarts-bar").hide();
+							$("#echarts-line").show();
+						})
+					});
+					
+					function qry(qt){
+						qryType = qt;
+						startTime = $('#startTime').val();
+						endTime = $('#endTime').val();
+						
+						if('reg' == type){
+							qryRegistShip();
+						}else if('busy' == type){
+							qryBusyShip();
+						}else if('idle' == type){
+							qryIdleShip();
+						}
+					}
+					
+					/* 船只注册统计 */
+					function qryRegistShip(qt){
+						type = 'reg';
+						var startTime = $('#startTime').val();
+						var endTime = $('#endTime').val();
+		
+						$.ajax({
+							"type": "post",
+							"data": {
+								startTime:$("#startTime").val(), 
+								endTime:$("#endTime").val(),
+								qryType : qt == null ? qryType: qt
+								},
+							"url": ys.path + "/report/qryRegistShip",
+							"success": function(data) {
+								var spRegist = data.spRegist;
+								
+								var barChart = echarts.init(document.getElementById("echarts-bar"));
+								var barOption = getBarOption('注册船只数量','#1890FF',spRegist);
+								barChart.setOption(barOption);
+								
+								window.onresize = barChart.resize;
+		
+								setStartEndTime(data);
+							}
+						})
+					}
+					
+					function setStartEndTime(data){
+						var startTime = new Date(data.startTime);
+						var endTime = new Date(data.endTime);
+						$('#startTime').val(startTime.getFullYear() + '-' + (startTime.getMonth() + 1) + '-' + startTime.getDate());
+						$('#endTime').val(endTime.getFullYear() + '-' + (endTime.getMonth() + 1) + '-' + endTime.getDate());
+					}
+					
+					/* 承运中统计 */
+					function qryBusyShip(qt){
+						type = 'busy';
+						var startTime = $('#startTime').val();
+						var endTime = $('#endTime').val();
+		
+						$.ajax({
+							"type": "post",
+							"data": {
+								startTime:$("#startTime").val(), 
+								endTime:$("#endTime").val(),
+								qryType : qt == null ? qryType: qt
+								},
+							"url": ys.path + "/report/qryBusyShip",
+							"success": function(data) {
+								var waitLoadShips = data.waitLoadShips;
+								var waitUnloadShips = data.waitUnloadShips;
+								
+								var lineChart = echarts.init(document.getElementById("echarts-line"));
+								var option = getLineOption('承运中船只数量','待装货','待卸货','#1890FF','#2FC25B',waitLoadShips,waitUnloadShips);
+								lineChart.setOption(option);
+								
+								window.onresize = lineChart.resize;
+		
+								setStartEndTime(data);
+							}
+						})
+					}
+					
+					/* 空闲统计 */
+					function qryIdleShip(qt){
+						type = 'idle';
+						var startTime = $('#startTime').val();
+						var endTime = $('#endTime').val();
+		
+						$.ajax({
+							"type": "post",
+							"data": {
+								startTime:$("#startTime").val(), 
+								endTime:$("#endTime").val(),
+								qryType : qt == null ? qryType: qt
+								},
+							"url": ys.path + "/report/qryIdleShip",
+							"success": function(data) {
+								var hookShips = data.hookShips;
+								var unHookShips = data.unHookShips;
+								
+								
+								var lineChart = echarts.init(document.getElementById("echarts-line"));
+								var option = getLineOption('空闲船只数量','已挂船期','未挂船期','#1890FF','#2FC25B',hookShips,unHookShips);
+								lineChart.setOption(option);
+								
+								window.onresize = lineChart.resize;
+		
+								setStartEndTime(data);
+							}
+						})
+					}
+					
+					//柱状图处理
+					function getBarOption(text,color,data) {
+						var arrDay = new Array();
+						var arrCount = new Array();
+						
+						for(i = 0,len=data.length; i < len; i++) {
+							arrDay.push(data[i].date);
+							arrCount.push(data[i].count);  
+						}
+						
+						return barOption = {
+								title: {
+									text: text
+								},
+								tooltip: {
+									trigger: 'axis'
+								},
+								legend: {
+								},
+								grid: {
+								},
+								calculable: true,
+								xAxis: [{
+									type: 'category',
+									data: arrDay
+								}],
+								yAxis: [{
+									type: 'value'
+								}],
+								series: [{
+									type: 'bar',
+									data: arrCount,
+									label: {
+									      normal: {
+									          show: true,
+									          position: 'top',
+									          textStyle: {
+									            color: color
+									          }
+									      }
+									},
+									itemStyle:{
+										color: color
+									},
+									barWidth:'35px'
+								}],
+								yAxis : [{
+			                        type : 'value',
+			                        axisLine:{
+			                        	show:false
+			                        },
+			                        axisTick:{
+			                        	show:false,                         
+			                        },
+			                        axisLabel:{
+				                        show:true
+			                        },
+			                        splitLine:{
+			                        	lineStyle:{
+			                        		type:'dashed'
+			                        	}
+			                        },
+			                        /* min:0,
+			                        max:1000,
+			                        splitNumber:5 */
+				                }]
+						}
+					}
+					
+					//线图处理
+					function getLineOption(text,lg1,lg2,color1,color2,data1,data2) {
+						var arrDay = new Array();
+						var arrCount1 = new Array();
+						var arrCount2 = new Array();
+						
+						for(i = 0,len=data1.length; i < len; i++) {
+							arrDay.push(data1[i].date);
+							arrCount1.push(data1[i].count);  
+						}
+						
+						for(i = 0,len=data2.length; i < len; i++) {
+							arrCount2.push(data2[i].count);  
+						}
+						
+						return Option = {
+							    title : {
+							        text: text,
+							    },
+							    tooltip : {
+							        trigger: 'axis'
+							    },
+							    legend: {
+							        data:[lg1,lg2]
+							    },
+							    calculable : true,
+							    xAxis : [
+							        {
+							            type : 'category',
+							            boundaryGap : false,
+							            data : arrDay
+							        }
+							    ],
+							    yAxis : [
+							        {
+							            type : 'value',
+							            axisLine:{
+				                        	show:false
+				                        },
+				                        axisTick:{
+				                        	show:false,                         
+				                        },
+				                        axisLabel:{
+					                        show:true
+				                        },
+				                        splitLine:{
+				                        	lineStyle:{
+				                        		type:'dashed'
+				                        	}
+				                        },
+							          	/* min:0,
+										max:100,
+										splitNumber:5 */
+							            
+							        }
+							    ],
+							    series : [
+							        {
+							            name:lg1,
+							            type:'line',
+							            data:arrCount1,
+							            itemStyle: {
+							                normal: {
+							                    color: color1
+							               }
+							            }
+							        },
+							        {
+							            name:lg2,
+							            type:'line',
+							            data:arrCount2,
+							          	itemStyle: {
+							              normal: {
+							                  color: color2
+							               }
+							   		 	}
+							        }
+							    ]
+							}
+					}
+					
+					//时间框处理
+					function date() {
+				    	var start = {
+					            elem: '#startTime',
+					            format: 'YYYY-MM-DD',
+					            istime: true,
+					            istoday: false,
+					            choose: function (datas) {
+					                end.min = datas; //开始日选好后，重置结束日的最小日期
+					                end.start = datas //将结束日的初始值设定为开始日
+					            }
+					        };
+				        var end = {
+				            elem: '#endTime',
+				            format: 'YYYY-MM-DD',
+				            istime: true,
+				            istoday: false,
+				            choose: function (datas) {
+				                start.max = datas; //结束日选好后，重置开始日的最大日期
+				            }
+				        };
+				        laydate(start);
+				        laydate(end);
+				  }
+					
+		</script>
+	</body>
+
+</html>

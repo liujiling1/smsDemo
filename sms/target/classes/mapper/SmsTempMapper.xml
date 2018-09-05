@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.yjkj.sms.mapper.SmsTempMapper">
+	
+	<!-- 查询短信模板By Id -->
+	<select id="selectById" parameterType="java.lang.String" resultType="com.yjkj.sms.entity.SmsTempEntity">
+		SELECT *
+		FROM
+		sms_temp
+		WHERE tempId = #{tempId}
+	</select>
+	
+	<!-- 查询短信模板列表 -->
+	<select id="selectTempList" parameterType="com.yjkj.sms.entity.SmsTempEntity" resultType="com.yjkj.sms.entity.SmsTempEntity">
+		SELECT *
+		FROM
+		sms_temp
+		<trim prefix="where" prefixOverrides="AND|OR">
+			<if test="tempId !=null and tempId !='' "> AND tempId =#{tempId}</if>
+			<if test="temp !=null and temp !='' "> AND temp like "%"#{temp}"%"</if>
+			<if test="type !=null and type !='' "> AND type =#{type} </if>
+			and del = 0
+		</trim>
+	</select>
+	
+	<insert id="insertTemp" parameterType="java.util.Map"> 
+		insert into sms_temp 
+		(tempId , temp, type)
+		values
+		(#{tempId}, #{temp},#{type})
+	</insert>
+	
+	<update id="updateTemp" parameterType="java.util.Map">
+		update sms_temp set temp=#{temp}, type=#{type} where tempId=#{tempId}
+	</update>
+	
+	<update id="deleteTemp" parameterType="java.lang.String">
+		update sms_temp set del='1' where tempId=#{tempId}
+	</update>
+
+</mapper>

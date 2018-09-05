@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org">
+<head th:include="base/header :: head_template">
+    <link th:href="@{/css/plugins/iCheck/custom.css}" rel="stylesheet" />
+</head>
+<body >
+   <input type="hidden" id="contextPath" value="${pageContext.request.contextPath}" />
+   <div class="wrapper wrapper-content animated fadeInRight">
+       <div class="row">
+           <div class="col-sm-12">
+                  <table id="dataTable" >
+                  </table>
+          </div>
+      </div>
+   </div>
+
+   <script th:src="@{/js/plugins/iCheck/icheck.min.js}"></script>
+   <!-- Page-Level Scripts -->
+   <script>
+   
+   
+
+   $(document).ready(function () {
+          	$('#dataTable').bootstrapTable( {
+         		url: '/role/qryRoleList',
+              "columns": [
+                  {checkbox: true},
+                  {field: 'roleId',title: '角色ID'},
+                  {field: 'des',title: '角色说明'},
+                  {field: 'menuTypes',title: '菜单类型'},
+              ],
+              onLoadSuccess:function(result){
+            	  setRoleId(result.data);
+              }
+          	});
+    });
+   
+   function setRoleId(data){
+		var roles = parent.$('#roles').val();
+		$("#dataTable").bootstrapTable("checkBy", {field:"roleId", values: roles.split(",")});
+   }
+   
+   function getRoles() {
+	   var tb = $('#dataTable').bootstrapTable('getSelections');
+	   var roles = '';
+	   for (var i = 0; i < tb.length; i++) {
+		   roles = roles +","+tb[i].roleId
+	    }
+		return roles.substr(1);
+   }
+
+   </script>
+</body>
+</html>
