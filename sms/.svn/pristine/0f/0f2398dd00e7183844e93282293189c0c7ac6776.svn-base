@@ -1,0 +1,22 @@
+package com.yjkj.sms.service.impl;
+
+import java.util.List;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
+import com.yjkj.sms.config.shiro.dto.SysMenu;
+import com.yjkj.sms.mapper.SysMenuMapper;
+import com.yjkj.sms.service.SysMenuService;
+
+@Service
+public class SysMenuServiceImpl implements SysMenuService{
+
+	@Autowired
+	SysMenuMapper sysMenuMapper;
+
+	public List<SysMenu> qryMenus(){
+
+		return sysMenuMapper.selectMenu();
+	}
+}

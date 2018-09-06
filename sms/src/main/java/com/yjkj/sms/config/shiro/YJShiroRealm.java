@@ -2,7 +2,6 @@ package com.yjkj.sms.config.shiro;
 
 
 import javax.annotation.Resource;
-
 import org.apache.shiro.authc.AuthenticationException;
 import org.apache.shiro.authc.AuthenticationInfo;
 import org.apache.shiro.authc.AuthenticationToken;
@@ -19,6 +18,20 @@ import org.slf4j.LoggerFactory;
 import com.yjkj.sms.config.shiro.dto.SysUser;
 import com.yjkj.sms.mapper.YjShiroMapper;
 import com.yjkj.sms.util.ThrowAbleException;
+import org.apache.shiro.authc.AuthenticationException;
+import org.apache.shiro.authc.AuthenticationInfo;
+import org.apache.shiro.authc.AuthenticationToken;
+import org.apache.shiro.authc.IncorrectCredentialsException;
+import org.apache.shiro.authc.SimpleAuthenticationInfo;
+import org.apache.shiro.authz.AuthorizationInfo;
+import org.apache.shiro.authz.SimpleAuthorizationInfo;
+import org.apache.shiro.realm.AuthorizingRealm;
+import org.apache.shiro.subject.PrincipalCollection;
+import org.apache.shiro.util.ByteSource;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import com.yjkj.sms.config.shiro.dto.SysUser;
+import com.yjkj.sms.mapper.YjShiroMapper;
 
 
 /**

@@ -1,5 +1,8 @@
 package com.yjkj.sms.interceptor;
 
+import java.io.IOException;
+import java.io.PrintWriter;
+
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
@@ -12,6 +15,8 @@ import org.springframework.stereotype.Component;
 import org.springframework.web.servlet.HandlerInterceptor;
 
 import com.yjkj.sms.util.IPUtil;
+
+import net.sf.json.JSONObject;
 
 @Component
 @PropertySource("classpath:sms.properties")
@@ -41,4 +46,29 @@ public class IpInterceptor implements HandlerInterceptor {
 		response.sendError(HttpServletResponse.SC_FORBIDDEN);
 		return false;
 	}
+
+	/** 
+	 * 以JSON格式输出 
+	 * @param response 
+	 */  
+	protected void responseOutWithJson(HttpServletResponse response,  
+	        Object responseObject) {  
+	    //将实体对象转换为JSON Object转换  
+	    JSONObject responseJSONObject = JSONObject.fromObject(responseObject);  
+	    response.setCharacterEncoding("UTF-8");  
+	    response.setContentType("application/json; charset=utf-8");  
+	    PrintWriter out = null;  
+	    try {  
+	        out = response.getWriter();  
+	        out.append(responseJSONObject.toString());  
+	        //logger.debug("返回是\n");  
+	        //logger.debug(responseJSONObject.toString());  
+	    } catch (IOException e) {  
+	        e.printStackTrace();  
+	    } finally {  
+	        if (out != null) {  
+	            out.close();  
+	        }  
+	    }  
+	} 
 }

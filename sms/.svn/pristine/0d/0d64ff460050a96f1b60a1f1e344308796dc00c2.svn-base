@@ -1,0 +1,17 @@
+package com.yjkj.sms.service;
+
+import java.util.List;
+
+import org.springframework.stereotype.Service;
+
+import com.yjkj.sms.entity.MenuEntity;
+
+@Service
+public interface SysMenuService {
+
+	/**
+	 * 查询菜单列表
+	 */
+	public List<MenuEntity> qryMenus();
+
+}

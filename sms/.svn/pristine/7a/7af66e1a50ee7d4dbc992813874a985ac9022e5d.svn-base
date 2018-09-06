@@ -1,0 +1,13 @@
+package com.yjkj.sms.mapper;
+
+import java.util.List;
+import java.util.Map;
+
+import com.yjkj.sms.entity.SmsTempEntity;
+
+public interface SmsTempMapper {
+	
+	String selectById(String tempId);
+
+	List<SmsTempEntity> selectTempList(Map<String, Object> param);
+}

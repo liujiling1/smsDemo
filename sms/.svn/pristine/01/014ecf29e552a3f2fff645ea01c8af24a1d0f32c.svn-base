@@ -1,0 +1,55 @@
+package com.yjkj.sms.entity;
+
+public class SmsLogEntity {
+	private Integer id;
+	private String sendMethod;
+	private String tempId;
+	private String params;
+	private String sendFrom;
+	private String phone;
+	private String result;
+	
+	public Integer getId() {
+		return id;
+	}
+	public void setId(Integer id) {
+		this.id = id;
+	}
+	public String getSendMethod() {
+		return sendMethod;
+	}
+	public void setSendMethod(String sendMethod) {
+		this.sendMethod = sendMethod;
+	}
+	public String getTempId() {
+		return tempId;
+	}
+	public void setTempId(String tempId) {
+		this.tempId = tempId;
+	}
+	public String getParams() {
+		return params;
+	}
+	public void setParams(String params) {
+		this.params = params;
+	}
+	public String getSendFrom() {
+		return sendFrom;
+	}
+	public void setSendFrom(String sendFrom) {
+		this.sendFrom = sendFrom;
+	}
+	public String getPhone() {
+		return phone;
+	}
+	public void setPhone(String phone) {
+		this.phone = phone;
+	}
+	public String getResult() {
+		return result;
+	}
+	public void setResult(String result) {
+		this.result = result;
+	}
+
+}
